@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工具集</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="layout">
+        <nav class="sidebar">
+            <div class="nav-header">工具集</div>
+            <ul class="nav-menu">
+                <li class="active"><a href="#"><span class="nav-icon">🔄</span>中英互译</a></li>
+                <li><a href="#"><span class="nav-icon">🎵</span>音频转换</a></li>
+                <li><a href="#"><span class="nav-icon">👥</span>换脸工具</a></li>
+                <li><a href="#"><span class="nav-icon">📚</span>翻译历史</a></li>
+                <li><a href="#"><span class="nav-icon">⭐</span>收藏夹</a></li>
+            </ul>
+        </nav>
+        
+        <div class="main-content">
+            <div class="container">
+                <!-- 文本翻译工具 -->
+                <div class="translator">
+                    <h1>中英互译工具</h1>
+                    <div class="input-wrapper">
+                        <textarea id="inputText" placeholder="请输入要翻译的文本..."></textarea>
+                        <button class="clear-btn" id="clearInput">✕</button>
+                    </div>
+                    <button id="translateBtn">翻译</button>
+                    <div class="input-wrapper">
+                        <textarea id="outputText" readonly placeholder="翻译结果将显示在这里..."></textarea>
+                        <button class="clear-btn" id="clearOutput">✕</button>
+                    </div>
+                </div>
+
+                <!-- 音频转换工具 -->
+                <div class="audio-converter" style="display: none;">
+                    <h1>视频语音翻译工具</h1>
+                    <div class="converter-container">
+                        <div class="file-upload-area">
+                            <input type="file" id="audioFileInput" accept="video/*" class="file-input" />
+                            <label for="audioFileInput" class="file-label">
+                                <span class="upload-icon">📁</span>
+                                <span>点击或拖拽视频文件到此处</span>
+                                <span class="file-hint">支持的格式：MP4, AVI, MOV, etc.</span>
+                            </label>
+                        </div>
+                        <div class="file-info" style="display: none;">
+                            <div class="file-details">
+                                <span class="file-name"></span>
+                                <span class="file-size"></span>
+                            </div>
+                            <button class="remove-file">移除</button>
+                        </div>
+                        <div class="conversion-options">
+                            <div class="option-group">
+                                <label>源语言:</label>
+                                <select id="sourceLanguage">
+                                    <option value="zh-CN">中文</option>
+                                </select>
+                            </div>
+                            <div class="option-group">
+                                <label>目标语言:</label>
+                                <select id="targetLanguage">
+                                    <option value="en-US">英文</option>
+                                </select>
+                            </div>
+                            <div class="option-group">
+                                <label>声音选择:</label>
+                                <select id="voiceSelect">
+                                    <option value="female">女声</option>
+                                    <option value="male">男声</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="process-steps">
+                            <div class="step">
+                                <span class="step-number">1</span>
+                                <span class="step-text">提取音频</span>
+                                <span class="step-status"></span>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">2</span>
+                                <span class="step-text">识别语音</span>
+                                <span class="step-status"></span>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">3</span>
+                                <span class="step-text">翻译文本</span>
+                                <span class="step-status"></span>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">4</span>
+                                <span class="step-text">合成语音</span>
+                                <span class="step-status"></span>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">5</span>
+                                <span class="step-text">合成视频</span>
+                                <span class="step-status"></span>
+                            </div>
+                        </div>
+                        <button id="convertBtn" class="convert-btn" disabled>开始转换</button>
+                        <div class="progress-container" style="display: none;">
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                                <span class="progress-text">0%</span>
+                            </div>
+                            <div class="progress-detail">正在处理...</div>
+                        </div>
+                        <div class="result-area" style="display: none;">
+                            <h3>转换结果</h3>
+                            <div class="video-preview">
+                                <video id="resultVideo" controls></video>
+                            </div>
+                            <div class="transcription-area">
+                                <div class="transcription-original">
+                                    <h4>原文</h4>
+                                    <div class="transcription-text"></div>
+                                </div>
+                                <div class="transcription-translated">
+                                    <h4>译文</h4>
+                                    <div class="transcription-text"></div>
+                                </div>
+                            </div>
+                            <div class="download-area">
+                                <button id="downloadBtn" class="download-btn">下载视频</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 换脸工具 -->
+                <div class="face-swap" style="display: none;">
+                    <h1>图片换脸工具</h1>
+                    <div class="face-swap-container">
+                        <div class="image-upload-section">
+                            <div class="image-upload-area">
+                                <input type="file" id="sourceImage" accept="image/*" class="file-input" />
+                                <label for="sourceImage" class="file-label">
+                                    <span class="upload-icon">📸</span>
+                                    <span>上传源图片（包含要替换的人脸）</span>
+                                </label>
+                                <div class="image-preview" id="sourcePreview"></div>
+                            </div>
+                            <div class="image-upload-area">
+                                <input type="file" id="targetImage" accept="image/*" class="file-input" />
+                                <label for="targetImage" class="file-label">
+                                    <span class="upload-icon">📸</span>
+                                    <span>上传目标图片（包含要使用的人脸）</span>
+                                </label>
+                                <div class="image-preview" id="targetPreview"></div>
+                            </div>
+                        </div>
+                        <div class="process-steps">
+                            <div class="step">
+                                <span class="step-number">1</span>
+                                <span class="step-text">检测人脸</span>
+                                <span class="step-status"></span>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">2</span>
+                                <span class="step-text">分析特征</span>
+                                <span class="step-status"></span>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">3</span>
+                                <span class="step-text">换脸处理</span>
+                                <span class="step-status"></span>
+                            </div>
+                        </div>
+                        <button id="swapFaceBtn" class="convert-btn" disabled>开始换脸</button>
+                        <div class="progress-container" style="display: none;">
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                                <span class="progress-text">0%</span>
+                            </div>
+                            <div class="progress-detail">正在处理...</div>
+                        </div>
+                        <div class="result-area" style="display: none;">
+                            <h3>处理结果</h3>
+                            <div class="result-image-container">
+                                <img id="resultImage" alt="换脸结果" />
+                            </div>
+                            <div class="download-area">
+                                <button id="downloadSwappedImage" class="download-btn">下载图片</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.0/dist/ffmpeg.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/md5-js@0.0.3/md5.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
